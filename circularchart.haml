@@ -7,13 +7,14 @@
 -rt    = 1.05
 -cx    = -0.5
 -cy    = -0.5
--sa    = 0.0 #start angle
--ea    = 360.0 #end angle
+-sx    = 1.0
+-sy    = 0.0
+-a     = 360.0 #angle
 -s     = 1.0/(data[0].keys.size.to_f-1.0)
 -uni   = (6.28*(ea-sa))/(360.0*data.size.to_f)
 -cos   = Math.cos(uni)
 -sin   = Math.sin(uni)
--arc = 0
+-arc   = 0
 -if ( data.size < 2 )
 	-arc = 1
 
@@ -21,13 +22,13 @@
 %g{:transform => "translate(#{size/2} #{size/2}) scale(#{scale})" }
 	- data[0].keys.each_with_index do |k,ki|
 		- data.each_with_index do |d,i|
-			-angle        = -i.to_f*(ea-sa)/data.size.to_f-sa
+			-angle        = -i.to_f*a/data.size.to_f
 			-r            = ki.to_f*s - 0.5*s
 			-color        = 0
 			-begin
 				-color = d[k].hash.to_f % 180.0
 			-if ( ki > 0 )
-				%path{ :d=>"M#{r+cx},#{cy} A#{r},#{r} 0 #{arc} 0 #{r*cos},#{r*-sin}", :style=>"fill:none; stroke:hsl(#{color},100%,25%)", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
+				%path{ :d=>"M#{sx},#{sy} A#{r},#{r} 0 #{arc} 0 #{r*cos},#{r*-sin}", :style=>"fill:none; stroke:hsl(#{color},100%,25%)", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
 				-#%set{ :attributeName => "stroke-width", :from => "#{s/2.0}", :to => "#{s}", :begin => "mouseover", :end => "mouseout" }
 			-else
 				-at = angle - 90.0*uni/3.14
