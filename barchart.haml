@@ -10,11 +10,12 @@
 	- h = 50.0/data.size
 	
 	- data.each_with_index do |d,i|
+		- y = 2*i*h+h
 		%rect{ :height => "#{h}%",
 			:style=>'fill:#321',
-			:y => "#{2*(i+1)*h}%",
+			:y => "#{y}%",
 			:width => "#{d[d.keys[1]]*95.0/max_value}%"}
-		%text{ :y => "#{2*(i+1)*h}%" }= d[d.keys[0]]
+		%text{ :y => "#{y}%" }= d[d.keys[0]]
 
 	%g{ :transform => "translate(100,100)" }
 		- data[0].keys.each_with_index do |k,ki|
