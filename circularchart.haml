@@ -28,7 +28,7 @@
 			-begin
 				-color = "hsl(#{k.hash.to_f % 360.0},100%,#{10.0 + d[k].to_f * 35.0 / max_value }%)"
 			-rescue TypeError
-				-color = "hsl(#{k.hash.to_f % 360.0},100%,#{10.0 + d[k].hash.to_f % 35.0 }%)"
+				-color = "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0},100%,25%)"
 			-rescue
 				-color = "#a00"
 			-if ( ki > 0 )
