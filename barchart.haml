@@ -14,7 +14,7 @@
 			:style=>'fill:#321',
 			:y => "#{2*(i+1)*h}%",
 			:width => "#{d[d.keys[1]]*95.0/max_value}%"}
-		%text{ :y => "#{2*i*h}%" }= d[d.keys[0]]
+		%text{ :y => "#{2*(i+1)*h}%" }= d[d.keys[0]]
 
 	%g{ :transform => "translate(100,100)" }
 		- data[0].keys.each_with_index do |k,ki|
