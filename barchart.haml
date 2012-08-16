@@ -13,13 +13,11 @@
 	- data.each_with_index do |d,i|
 		- y = 2*i*h+h
 		- color = steps_color * i
+		- w = d[d.keys[1]]*95.0/max_value
 		%rect{ :height => "#{h}%",
 			:style=>'fill:hsl(#{color},100%,25%)',
 			:y => "#{y}%",
-			:width => "#{d[d.keys[1]]*95.0/max_value}%"}
+			:width => "#{w}%"}
 		%text{ :y => "#{y}%" }= d[d.keys[0]]
-
-				-color = ki.to_f * 360.0 / ks.to_f
-				-w = 100.0*(d[k]-minv)/(maxv-minv) rescue 0
-				%rect{:y=>ks*i+ki,:x=>0,:width=>w,:height=>1,:style=>"fill:hsl(color,100%,25%)"}
+		-#%rect{:y=>ks*i+ki,:x=>0,:width=>w,:height=>1,:style=>"fill:hsl(color,100%,25%)"}
 
