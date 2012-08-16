@@ -3,7 +3,7 @@
 		="Empty data set"
 
 -size  = 500
--scale = 200.0
+-scale = 100.0
 -rt    = 1.05
 -cx    = -0.5
 -cy    = -0.5
@@ -25,11 +25,12 @@
 		- data.each_with_index do |d,i|
 			-angle        = -i.to_f*a/data.size.to_f
 			-r            = ki.to_f*s - 0.5*s
-			-color        = "red"
 			-begin
 				-color = "hsl(k.hash % 180.0,#{d[k].to_f * 360.0 / max_value}%,25%)"
-			-begin
+			-rescue TypeError
 				-color = d[k].hash.to_f % 360.0
+			-rescue
+				-color = "#a00"
 			-if ( ki > 0 )
 				%path{ :d=>"M#{r*sx},#{r*sy} A#{r},#{r} 0 #{arc} 0 #{r*0.9},#{r*-0.1}", :style=>"fill:none; stroke:#{color}", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
 				-#%set{ :attributeName => "stroke-width", :from => "#{s/2.0}", :to => "#{s}", :begin => "mouseover", :end => "mouseout" }
