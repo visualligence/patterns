@@ -21,14 +21,17 @@
 %rect{ :x => "0", :y => "0", :width=>"100%", :height=>"100%", :style=>"fill:#456"}
 %g{:transform => "translate(#{size/2} #{size/2}) scale(#{scale})" }
 	- data[0].keys.each_with_index do |k,ki|
+		- max_value = data.max_by{|a| a[k]}[k] rescue nil
 		- data.each_with_index do |d,i|
 			-angle        = -i.to_f*a/data.size.to_f
 			-r            = ki.to_f*s - 0.5*s
-			-color        = 0
+			-color        = "red"
 			-begin
-				-color = d[k].hash.to_f % 180.0
+				-color = "hsl(k.hash % 180.0,#{d[k].to_f * 360.0 / max_value}%,25%)"
+			-begin
+				-color = d[k].hash.to_f % 360.0
 			-if ( ki > 0 )
-				%path{ :d=>"M#{r*sx},#{r*sy} A#{r},#{r} 0 #{arc} 0 #{r*0.9},#{r*-0.1}", :style=>"fill:none; stroke:hsl(#{color},100%,25%)", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
+				%path{ :d=>"M#{r*sx},#{r*sy} A#{r},#{r} 0 #{arc} 0 #{r*0.9},#{r*-0.1}", :style=>"fill:none; stroke:#{color}", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
 				-#%set{ :attributeName => "stroke-width", :from => "#{s/2.0}", :to => "#{s}", :begin => "mouseover", :end => "mouseout" }
 			-else
 				-at = angle - 90.0*uni/3.14
