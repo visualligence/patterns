@@ -8,7 +8,7 @@
 	- max_item  = data.max_by{|a| a[a.keys[1]]}
 	- max_value = max_item[ max_item.keys[1] ]
 	- h = 50.0/data.size
-	- steps_color = 360.0 / @data.size.to_f
+	- steps_color = 360.0 / data.size.to_f
 
 	- data.each_with_index do |d,i|
 		- y = 2*i*h+h
