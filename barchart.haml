@@ -1,19 +1,31 @@
 -if ( data.size == 0 || data[0].keys.size.to_f == 0)
 	%text{ :x => "0", :y => "100%" }
 		="Empty data set"
+-else
+	%rect{ :x => "0", :y => "0", :width=>"100%", :height=>"100%", :style=>"fill:#456" }
+	
+	- ks = data[0].keys.size.to_f
+	- max_item  = @data.max_by{|a| a[a.keys[1]]}
+	- max_value = max_item[ max_item.keys[1] ]
+	- h = 50.0/@data.size
+	
+	- @data.each_with_index do |d,i|
+		%rect{ :height => "#{h}%",
+			:style=>'fill:aqua',
+			:y => "#{2*i*h}%",
+			:width => "#{d[d.keys[1]]*95.0/max_value}%"}
+		%text{ :y => "#{2*i*h}%" }= d[d.keys[0]]
 
--ks = data[0].keys.size.to_f
+	%g{ :transform => "translate(100,100)" }
+		- data[0].keys.each_with_index do |k,ki|
+			- if(ki == 0)
+				- data.each_with_index do |d,i|
+					%text{:y=>ks*i, :style=>"text-anchor:end;text-align:right" }= d[k]
+			- else
+				- maxv = data.max_by{|a| a[k].to_f }[ k ].to_f
+				- minv = data.min_by{|a| a[k].to_f }[ k ].to_f
+				- data.each_with_index do |d,i|
+					-color = ki.to_f * 360.0 / ks.to_f
+					-w = 100.0*(d[k]-minv)/(maxv-minv) rescue 0
+					%rect{:y=>ks*i+ki,:x=>0,:width=>w,:height=>1,:style=>"fill:hsl(color,100%,25%)"}
 
-%rect{ :x => "0", :y => "0", :width=>"100%", :height=>"100%", :style=>"fill:#456" }
-%g{ :transform => "translate(100,100)" }
-	- data[0].keys.each_with_index do |k,ki|
-		- if(ki == 0)
-			- data.each_with_index do |d,i|
-				%text{:y=>ks*i, :style=>"text-anchor:end;text-align:right" }= d[k]
-		- else
-			- maxv = data.max_by{|a| a[k].to_f }[ k ].to_f
-			- minv = data.min_by{|a| a[k].to_f }[ k ].to_f
-			- data.each_with_index do |d,i|
-				-color = ki.to_f * 360.0 / ks.to_f
-				-w = 100.0*(d[k]-minv)/(maxv-minv) rescue 0
-				%rect{:y=>ks*i+ki,:x=>0,:width=>w,:height=>1,:style=>"fill:hsl(color,100%,25%)"}
