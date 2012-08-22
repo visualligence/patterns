@@ -1,5 +1,5 @@
+- style_text = "font-size:0.01px;font-family:Trebuchet MS;fill:white;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
 %g{ :transform => "scale(10)" }
-	- style_text = "font-size:0.1px;font-family:Trebuchet MS;fill:white;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
 	- data[0].keys.each_with_index do |k,ki|
 		- max_value = data.max_by{|a| a[k]}[k] rescue nil
 		- min_value = data.max_by{|a| a[k]}[k] rescue nil
