@@ -3,7 +3,7 @@
 %g{ :transform => "scale(10)" }
 	- data[0].keys.each_with_index do |k,ki|
 		- max_value = data.max_by{|a| a[k]}[k] rescue nil
-		- min_value = data.max_by{|a| a[k]}[k] rescue nil
+		- min_value = data.min_by{|a| a[k]}[k] rescue nil
 		- legend = {}
 		- data.each_with_index do |d,i|
 			-v = d[ k ].to_s
