@@ -5,11 +5,11 @@
 	- legend = {}
 	- data.each_with_index do |d,i|
 		-begin
-			-legend[ d ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
+			-legend[ d[k] ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
 		-rescue TypeError
-			-legend[ d ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
+			-legend[ d[k] ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
 		-rescue
-			-legend[ d ] ||= "#aaaa00"
+			-legend[ d[k] ] ||= "#aaaa00"
 	- h = 5
 	- x = ki * h
 	%text{ :x=>"#{x}",:y=>"0",:transform=>"rotate(#{at})",:style=>style_text }
@@ -21,6 +21,6 @@
 		%rect{ :x => x,   :y => h, :height => 1, :width => 1, :style => "fill:#{legend[max_value]}" }
 	-else
 		-legend.each do |kv,i|
-			- d,color = kv
-			%text{ :x => x+1, :y => i+1,                            :style => "fill:#{color}" }= d
+			- dk,color = kv
+			%text{ :x => x+1, :y => i+1,                            :style => "fill:#{color}" }= dk
 			%rect{ :x => x,   :y => i+1, :height => 1, :width => 1, :style => "fill:#{color}" }
