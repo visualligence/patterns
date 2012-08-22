@@ -1,51 +1,28 @@
--# git commit -am "`git status -sz -uno`" && git push origin master
-
--if ( data.size == 0 || data[0].keys.size.to_f == 0)
-	%text{ :x => '0', :y => '100%' }
-		="Empty data set"
-
--size  = 500
--scale = 100.0
--rt    = 1.05
--cx    = -0.5
--cy    = -0.5
--sx    = 1.0
--sy    = 0.0
--a     = 360.0 #angle
--s     = 1.0/(data[0].keys.size.to_f-1.0)
--uni   = (a/data.size.to_f) * (3.14/180.0)
--cos   = Math.cos(uni)
--sin   = Math.sin(uni)
--arc   = 0
--if ( data.size < 2 )
-	-arc = 1
-
-%rect{ :x => "0", :y => "0", :width=>"100%", :height=>"100%", :style=>"fill:#456"}
-%g{:transform => "translate(#{size/2} #{size/2}) scale(#{scale})" }
-	- data[0].keys.each_with_index do |k,ki|
-		- max_value = data.max_by{|a| a[k]}[k] rescue nil
-		- data.each_with_index do |d,i|
-			-angle        = -i.to_f*a/data.size.to_f
-			-r            = ki.to_f*s - 0.5*s
-			-begin
-				-color = "hsl(#{k.hash.to_f % 360.0}, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
-			-rescue TypeError
-				-color = "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
-			-rescue
-				-color = "#a00"
-			-if ( ki > 0 )
-				%path{ :d=>"M#{r*sx},#{r*sy} A#{r},#{r} 0 #{arc} 0 #{r*0.9},#{r*-0.1}", :style=>"fill:none; stroke:#{color}", :transform=>"rotate(#{angle})", :'stroke-width' => "#{s}"}
-				-#%set{ :attributeName => "stroke-width", :from => "#{s/2.0}", :to => "#{s}", :begin => "mouseover", :end => "mouseout" }
-			-else
-				-at = angle - 90.0*uni/3.14
-				-if ( at < -90.0 && at > -270.0 )
-					-at = at + 180
-					-x  = -rt
-					-an = "end"
-					-al = "end"
-				-else
-					-x  = rt
-					-an = "left"
-					-al = "initial"
-				%text{ :id=>"text#{i}", :x=>"#{x}",:y=>"0",:transform=>"rotate(#{at})",:style=>"font-family:Trebuchet MS;fill:white;font-size:0.1px;text-anchor:#{an};text-align:#{al};writing-mode:lr;alignment-baseline:central" }
-					= "#{d[k]}"
+- style_text = "font-size:0.1px;font-family:Trebuchet MS;fill:white;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
+- data[0].keys.each_with_index do |k,ki|
+	- max_value = data.max_by{|a| a[k]}[k] rescue nil
+	- min_value = data.max_by{|a| a[k]}[k] rescue nil
+	- legend = {}
+	- data.each_with_index do |d,i|
+		-begin
+			-legend[ d ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
+		-rescue TypeError
+			-legend[ d ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
+		-rescue
+			-legend[ d ] ||= "#aaaa00"
+			- data[0].keys.each_with_index do |k,ki|
+				-legend.each_with_index do |[ki,d],i|
+	- h = 5
+	- x = ki * h
+	%text{ :x=>"#{x}",:y=>"0",:transform=>"rotate(#{at})",:style=>style_text }
+		= k
+	-if max_value && min_value
+		%text{ :x => x+1, :y => 1,                            :style => "fill:#{legend[min_value]}" }= min_value
+		%rect{ :x => x,   :y => 1, :height => 1, :width => 1, :style => "fill:#{legend[min_value]}" }
+		%text{ :x => x+1, :y => h,                            :style => "fill:#{legend[max_value]}" }= max_value
+		%rect{ :x => x,   :y => h, :height => 1, :width => 1, :style => "fill:#{legend[max_value]}" }
+	-else
+		-legend.each do |kv,i|
+			- d,color = kv
+			%text{ :x => x+1, :y => i+1,                            :style => "fill:#{color}" }= d
+			%rect{ :x => x,   :y => i+1, :height => 1, :width => 1, :style => "fill:#{color}" }
