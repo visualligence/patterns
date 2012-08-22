@@ -8,14 +8,14 @@
 		- min_value = data.min_by{|a| a[k]}[k] rescue nil
 		- legend = {}
 		- data.each do |d|
-			-v = d[ k ]
+			- value = d[ k ]
 			-begin
-				-legend[ v ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
+				-legend[ value ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + value.to_f * 35.0 / max_value }%)"
 			-rescue TypeError
-				-legend[ v ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
+				-legend[ value ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
 			-rescue
-				-legend[ v ] ||= "#aaaa00"
+				-legend[ value ] ||= "#aaaa00"
 		- legend.each do |v,color|
 			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
-			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= legend.to_yaml
+			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v
 			- sy = sy + 1
