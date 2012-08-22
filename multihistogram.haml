@@ -10,8 +10,6 @@
 			-legend[ d ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
 		-rescue
 			-legend[ d ] ||= "#aaaa00"
-			- data[0].keys.each_with_index do |k,ki|
-				-legend.each_with_index do |[ki,d],i|
 	- h = 5
 	- x = ki * h
 	%text{ :x=>"#{x}",:y=>"0",:transform=>"rotate(#{at})",:style=>style_text }
