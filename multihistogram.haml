@@ -1,7 +1,7 @@
 - sy = 0
 - style_text = "font-size:1px;font-family:Trebuchet MS;fill:#888;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
 %g{ :transform => "scale(10)" }
-	- data[0].keys.each_with_index do |k,ki|
+	- data[0].keys.each do |k|
 		%text{ :x => 0 ,:y => sy, :style => style_text }= k.to_s
 		- sy = sy + 1
 		- max_value = data.max_by{|a| a[k]}[k] rescue nil
