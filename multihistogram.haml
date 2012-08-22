@@ -7,12 +7,12 @@
 		- max_value = data.max_by{|a| a[k]}[k] rescue nil
 		- min_value = data.min_by{|a| a[k]}[k] rescue nil
 		- legend = {}
-		- data.each do |d|
+		- data.each_with_index do |d,i|
 			- value = d[ k ]
 			-begin
 				-legend[ value ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + value.to_f * 35.0 / max_value }%)"
 			-rescue TypeError
-				-legend[ value ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
+				-legend[ value ] ||= "hsl(#{( i.to_f * 360.0 ) / data.size }, 45%, 25%)"
 			-rescue
 				-legend[ value ] ||= "#aaaa00"
 		- legend.each do |v,color|
