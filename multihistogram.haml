@@ -2,10 +2,12 @@
 - style_text = "font-size:1px;font-family:Trebuchet MS;fill:#888;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
 %g{ :transform => "scale(10)" }
 	- data[0].keys.each_with_index do |k,ki|
+		%text{ :x => 0 ,:y => sy, :style => style_text }= k.to_s
+		- sy = sy + 1
 		- max_value = data.max_by{|a| a[k]}[k] rescue nil
 		- min_value = data.min_by{|a| a[k]}[k] rescue nil
 		- legend = {}
-		- data.each_with_index do |d,i|
+		- data.each do |d|
 			-v = d[ k ]
 			-begin
 				-legend[ v ] ||= "hsl(#{ k.hash.to_f % 360.0 }, 100%, #{10.0 + d[k].to_f * 35.0 / max_value }%)"
@@ -13,9 +15,7 @@
 				-legend[ v ] ||= "hsl(#{( k.hash.to_f + d[k].hash.to_f ) % 360.0}, 45%, 25%)"
 			-rescue
 				-legend[ v ] ||= "#aaaa00"
-		%text{ :x => 0 ,:y => sy, :style => style_text }= k.to_s
-		- sy = sy + 1
-		-legend.each do |v,color|
+		- legend.each do |v,color|
 			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
-			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v
+			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= legend.to_yaml
 			- sy = sy + 1
