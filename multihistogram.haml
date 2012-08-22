@@ -15,8 +15,7 @@
 				-legend[ v ] ||= "#aaaa00"
 		%text{ :x => 0 ,:y => sy, :style => style_text }= k.to_s
 		- sy = sy + 1
-		-legend.each do |v_color,i|
-			- v,color = v_color
+		-legend.each do |v,color|
 			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
 			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v
 			- sy = sy + 1
