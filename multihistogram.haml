@@ -15,15 +15,8 @@
 				-legend[ v ] ||= "#aaaa00"
 		%text{ :x => 0 ,:y => sy, :style => style_text }= k.to_s
 		- sy = sy + 1
-		- if( max_value && min_value )
-			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{legend[min_value]}" }= min_value
-			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{legend[min_value]}" }
+		-legend.each do |v_color,i|
+			- v,color = v_color
+			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v.to_s
+			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
 			- sy = sy + 1
-			%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{legend[max_value]}" }= max_value
-			%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{legend[max_value]}" }
-		-else
-			-legend.each do |v_color,i|
-				- v,color = v_color
-				%text{ :x => 1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v.to_s
-				%rect{ :x => 0, :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
-		- sy = sy + 1
