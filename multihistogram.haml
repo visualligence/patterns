@@ -16,12 +16,12 @@
 		- x = ki * h
 		%text{ :x => x ,:y=>"0",:style => style_text }= k.to_s
 		- if( max_value && min_value )
-			%text{ :x => x+1, :y => 1,                            :style => "fill:#{legend[min_value]}" }= min_value
+			%text{ :x => x+1, :y => 1,                            :style => "#{style_text};fill:#{legend[min_value]}" }= min_value
 			%rect{ :x => x,   :y => 1, :height => 1, :width => 1, :style => "fill:#{legend[min_value]}" }
-			%text{ :x => x+1, :y => h,                            :style => "fill:#{legend[max_value]}" }= max_value
+			%text{ :x => x+1, :y => h,                            :style => "#{style_text};fill:#{legend[max_value]}" }= max_value
 			%rect{ :x => x,   :y => h, :height => 1, :width => 1, :style => "fill:#{legend[max_value]}" }
 		-else
 			-legend.each do |v_color,i|
 				- v,color = v_color
-				%text{ :x => x+1, :y => i+1,                            :style => "fill:#{color}" }= v.to_s
+				%text{ :x => x+1, :y => i+1,                            :style => "#{style_text};fill:#{color}" }= v.to_s
 				%rect{ :x => x,   :y => i+1, :height => 1, :width => 1, :style => "fill:#{color}" }
