@@ -19,7 +19,7 @@
 	-#	%rect{ :x => x,   :y => 1, :height => 1, :width => 1, :style => "fill:#{legend[min_value]}" }
 	-#	%text{ :x => x+1, :y => h,                            :style => "fill:#{legend[max_value]}" }= max_value
 	-#	%rect{ :x => x,   :y => h, :height => 1, :width => 1, :style => "fill:#{legend[max_value]}" }
-	-else
+	-#else
 		-legend.each do |kv,i|
 			- dk,color = kv
 			%text{ :x => x+1, :y => i+1,                            :style => "fill:#{color}" }= dk
