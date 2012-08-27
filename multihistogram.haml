@@ -1,24 +1,33 @@
-- sy = 0
-- sx = 0
-- style_text = "font-size:1px;font-family:Trebuchet MS;fill:#888;text-anchor:initial;text-align:left;writing-mode:lr;alignment-baseline:central"
+- style_text = "font-size:1px;font-family:Droid Sans Mono;"
+- len_rect   = 2.0 # un rectángulo ocupa 2 caracteres
+- font_ratio = 0.6
+- spacing    = 1.0
+- interlin   = 1.15
+- sx = 0.0
 %g{ :transform => "scale(10)" }
 	- data[0].keys.each do |k|
+		- sy = 1.0
 		%text{ :x => sx, :y => sy, :style => style_text }= k.to_s
-		- sy = sy + 1
+		- sy = sy + interlin
 		- max_value = data.max_by{|a| a[k].to_f}[k] rescue nil
 		- min_value = data.min_by{|a| a[k].to_f}[k] rescue nil
 		- legend = {}
-		- data.each_with_index do |d,i|
+		- mac_k = HMAC::MD5.new('').update( k ).hexdigest.to_i( 16 )
+		- data.sort_by{ |a| a[k] }.each_with_index do |d,i|
 			- value = d[ k ]
+			- mac_v = HMAC::MD5.new('').update( value.to_s ).hexdigest.to_i( 16 )
 			-begin
-				-legend[ value ] ||= "hsl(#{ HMAC::MD5.new( k ).hexdigest.to_i( 16 ) % 360 }, 100%, #{10.0 + (value.to_f - min_value) * 35.0 / (max_value - min_value) }%)"
+				-legend[ value ] ||= "hsl(#{ mac_k % 360 }, 100%, #{10.0 + (value.to_f - min_value) * 35.0 / (max_value - min_value) }%)"
 			-rescue TypeError
-				-legend[ value ] ||= "hsl(#{( i.to_f * 360.0 ) / data.size }, 45%, 25%)"
+				-legend[ value ] ||= "hsl(#{ mac_v % 360 }, 45%, 25%)"
 			-rescue
 				-legend[ value ] ||= "#aaaa00"
 		- legend.each do |v,color|
-			%rect{ :x => sx  , :y => sy, :height => 1, :width => 1, :style => "fill:#{color}" }
-			%text{ :x => sx+1, :y => sy,                            :style => "#{style_text};fill:#{color}" }= v
-			- sy = sy + 1
-		-sy = 0
-		-sx = sx + 5
+			%rect{ :x => sx    , :y => sy-0.8, :height => 1, :width => 1, :style => "fill:#{color};stroke:white;stroke-width:.1px" }
+			%text{ :x => sx+1.2, :y => sy,                                :style => "#{style_text};fill:#{color}" }= v
+			- sy = sy + interlin
+		- max_len  = data.max_by{|a| a[k].size }[k].size.to_f
+		- len_k    = k.to_s.size.to_f
+		- begin
+			- sx = sx + [ max_len + len_rect , len_k ].max * font_ratio
+		- sx = sx + spacing
